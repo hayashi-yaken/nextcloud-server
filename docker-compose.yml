@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: nextcloud-db
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - internal
+
+  nextcloud:
+    image: nextcloud:28-apache
+    container_name: nextcloud-app
+    restart: always
+    depends_on:
+      - mariadb
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: mariadb
+    volumes:
+      - nextcloud-html:/var/www/html
+    networks:
+      - internal
+      - web
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nextcloud-nginx
+    restart: always
+    depends_on:
+      - nextcloud
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    ports:
+      - '80:80'
+      - '443:443'
+    networks:
+      - web
+      - internal
+
+  certbot:
+    image: certbot/certbot
+    container_name: nextcloud-certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: /bin/sh -c "trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew; done"
+    networks:
+      - web
+
+networks:
+  web:
+  internal:
+
+volumes:
+  db-data:
+  nextcloud-html:
