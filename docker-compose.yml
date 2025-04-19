@@ -40,8 +40,8 @@ services:
       - nextcloud
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt
+      - ./certs:/etc/nginx/certs
+
     ports:
       - '80:80'
       - '443:443'
@@ -49,15 +49,20 @@ services:
       - web
       - internal
 
-  certbot:
-    image: certbot/certbot
-    container_name: nextcloud-certbot
+  tailscale:
+    build: ./tailscale
+    container_name: nextcloud-tailscale
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    network_mode: 'host'
     volumes:
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt
-    entrypoint: /bin/sh -c "trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew; done"
-    networks:
-      - web
+      - /dev/net/tun:/dev/net/tun
+      - tailscale-var:/var/lib/tailscale
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_EXTRA_ARGS=--advertise-tags=tag:nextcloud
+    restart: always
 
 networks:
   web:
