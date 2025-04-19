@@ -20,14 +20,14 @@ services:
     depends_on:
       - mariadb
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_HOST: mariadb
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=mariadb
     volumes:
       - ./nextcloud:/var/www/html
-      # - nextcloud-html:/var/www/html
-      # - ./nextcloud/custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
     networks:
       - internal
       - web
