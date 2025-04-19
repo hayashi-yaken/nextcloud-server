@@ -27,7 +27,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_HOST=mariadb
     volumes:
-      - ./nextcloud:/var/www/html
+      - nextcloud-html:/var/www/html
     networks:
       - internal
       - web
