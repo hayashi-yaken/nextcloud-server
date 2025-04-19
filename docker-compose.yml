@@ -48,20 +48,21 @@ services:
       - web
       - internal
 
-  tailscale:
-    build: ./tailscale
-    container_name: nextcloud-tailscale
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    network_mode: 'host'
-    volumes:
-      - /dev/net/tun:/dev/net/tun
-      - tailscale-var:/var/lib/tailscale
-    environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_EXTRA_ARGS=--advertise-tags=tag:nextcloud
-    restart: always
+  # ホストにtailscaleをインストールしていない場合は、以下のコメントを外してください
+  # tailscale:
+  #   build: ./tailscale
+  #   container_name: nextcloud-tailscale
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #   network_mode: 'host'
+  #   volumes:
+  #     - /dev/net/tun:/dev/net/tun
+  #     - tailscale-var:/var/lib/tailscale
+  #   environment:
+  #     - TS_AUTHKEY=${TS_AUTHKEY}
+  #     - TS_EXTRA_ARGS=--advertise-tags=tag:nextcloud
+  #   restart: always
 
 networks:
   web:
@@ -70,4 +71,4 @@ networks:
 volumes:
   db-data:
   nextcloud-html:
-  tailscale-var:
+  # tailscale-var:
