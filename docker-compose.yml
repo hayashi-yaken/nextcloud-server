@@ -25,7 +25,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_HOST: mariadb
     volumes:
-      - nextcloud-html:/var/www/html
+      - ./nextcloud:/var/www/html
+      # - nextcloud-html:/var/www/html
       - ./nextcloud/custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
     networks:
       - internal
