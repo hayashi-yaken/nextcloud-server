@@ -27,7 +27,7 @@ services:
     volumes:
       - ./nextcloud:/var/www/html
       # - nextcloud-html:/var/www/html
-      - ./nextcloud/custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
+      # - ./nextcloud/custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
     networks:
       - internal
       - web
@@ -49,21 +49,6 @@ services:
       - web
       - internal
 
-  # tailscale:
-  #   build: ./tailscale
-  #   container_name: nextcloud-tailscale
-  #   cap_add:
-  #     - NET_ADMIN
-  #     - SYS_MODULE
-  #   network_mode: 'host'
-  #   volumes:
-  #     - /dev/net/tun:/dev/net/tun
-  #     - tailscale-var:/var/lib/tailscale
-  #   environment:
-  #     - TS_AUTHKEY=${TS_AUTHKEY}
-  #     - TS_EXTRA_ARGS=--advertise-tags=tag:nextcloud
-  #   restart: always
-
 networks:
   web:
   internal:
@@ -71,4 +56,3 @@ networks:
 volumes:
   db-data:
   nextcloud-html:
-  # tailscale-var:
