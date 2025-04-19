@@ -14,7 +14,11 @@ down:
 ## ボリュームの削除
 clean-volumes:
 	$(COMPOSE) down -v
-	docker volume rm $$(docker volume ls -q | grep $(PROJECT)- || true)
+	@if docker volume ls -q | grep '^nextcloud-' >/dev/null; then \
+		docker volume rm $$(docker volume ls -q | grep '^nextcloud-'); \
+	else \
+		echo "No nextcloud-related volumes to remove."; \
+	fi
 
 ## 再起動
 restart:
