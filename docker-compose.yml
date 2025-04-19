@@ -26,7 +26,7 @@ services:
       MYSQL_HOST: mariadb
     volumes:
       - nextcloud-html:/var/www/html
-      - ./config:/var/www/html/config
+      - ./nextcloud/config:/var/www/html/config
     networks:
       - internal
       - web
