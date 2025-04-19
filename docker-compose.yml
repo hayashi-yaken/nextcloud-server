@@ -48,7 +48,6 @@ services:
       - web
       - internal
 
-  # ホストにtailscaleをインストールしていない場合は、以下のコメントを外してください
   # tailscale:
   #   build: ./tailscale
   #   container_name: nextcloud-tailscale
