@@ -20,14 +20,12 @@ services:
     depends_on:
       - mariadb
     environment:
-      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
-      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_HOST=mariadb
     volumes:
-      - nextcloud-html:/var/www/html
+      - nextcloud_data:/var/www/html
     networks:
       - internal
       - web
@@ -55,4 +53,4 @@ networks:
 
 volumes:
   db-data:
-  nextcloud-html:
+  nextcloud_data:
