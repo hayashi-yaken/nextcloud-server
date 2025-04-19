@@ -24,7 +24,7 @@ nextcloud-server は以下のような目的で構築されています：
 | ---------------- | ------------------------------ |
 | クラウドソフト   | Nextcloud                      |
 | データベース     | MariaDB                        |
-| リバースプロキシ | Nginx + 自己署名 SS L          |
+| リバースプロキシ | Nginx + 自己署名 SSL           |
 | VPN アクセス制御 | Tailscale                      |
 | コンテナ管理     | Docker / Docker Compose        |
 | バックアップ     | Shell スクリプト + cron 対応可 |
